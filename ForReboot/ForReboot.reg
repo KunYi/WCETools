@@ -1,0 +1,6 @@
+
+; IF REBOOT_TEST
+[HKEY_LOCAL_MACHINE\init]
+	"Launch90"="ForReboot.exe"
+	"Depend90"=hex:14,00,1e,00
+; ENDIF REOOT_TEST

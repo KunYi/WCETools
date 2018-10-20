@@ -1,0 +1,12 @@
+
+; IF REBOOT_TEST
+
+root:-Directory("\Windows")
+Directory("\Windows"):-Directory("LOC_DESKTOP_DIR")
+Directory("\Windows"):-Directory("LOC_PROGRAMS_DIR")
+
+;Directory("\Windows\LOC_DESKTOP_DIR"):-File("RebootTest.lnk", "\Windows\RebootTest.lnk")
+;Directory("\Windows\LOC_PROGRAMS_DIR\System Utilites"):-File("RebootTest.lnk", "\Windows\RebootTest.lnk")
+
+; ENDIF REBOOT_TEST
+

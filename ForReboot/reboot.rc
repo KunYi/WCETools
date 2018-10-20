@@ -1,0 +1,20 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include <windows.h>
+#include "resource.h"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DIALOG1 DIALOG  0, 0, 162, 76
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION
+CAPTION "RebootTesting"
+FONT 9, "MS Shell Dlg"
+BEGIN
+    DEFPUSHBUTTON   "Quit",IDOK,109,5,50,14
+    LTEXT           "                           ",IDC_STATIC1,35,38,120,8
+    LTEXT           "                           ",IDC_STATIC2,35,53,120,8
+END
+
