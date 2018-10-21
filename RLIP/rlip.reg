@@ -1,0 +1,6 @@
+
+[HKEY_LOCAL_MACHINE\Init]
+	"Launch45"="rlip.exe"
+	"Depend45"=hex:14,00,1e,00
+	"Launch47"="PMEvent.exe"
+	"Depend47"=hex:14,00,1e,00

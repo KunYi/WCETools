@@ -1,0 +1,11 @@
+
+[HKEY_LOCAL_MACHINE\Init]
+	"Launch40"="AutoLaunch.exe"
+	"Depend40"=hex:14,00,1e,00
+	"Launch50"="explorer.exe"
+	"Depend50"=hex:14,00,1e,00,28,00
+
+[HKEY_LOCAL_MACHINE\Startup]
+	"Process1"="\\Hard Disk\\Diagnostic.exe"
+	"Process1Delay"=dword:0
+

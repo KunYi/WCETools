@@ -1,0 +1,11 @@
+
+[HKEY_LOCAL_MACHINE\Init]
+	"Launch49"="rsntp.exe"
+	"Depend49"=hex:14,00,1e,00,2d,00	; 0x2d, 00 is rlip.exe, Launch45
+										; 0x14, 00 is device.exe, Launch20
+										; 0x1e, 00 is gwes.exe, Launch30
+
+; Event Log of PM 
+[HKEY_LOCAL_MACHINE\SOFTWARE\RSNTP]
+	"PATH"="\\ResidentFlash\\MeetingManagementSetup"
+	"INI"="RSNTP.INI"
