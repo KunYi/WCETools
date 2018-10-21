@@ -1,0 +1,42 @@
+
+WINCEOEM=1
+
+WINCEREL=1
+RELEASETYPE=LOCAL
+
+_ISVINCPATH=$(_WINCEROOT)\public\common\sdk\inc;$(_WINCEROOT)\public\common\ddk\inc;
+_OEMINCPATH=$(_WINCEROOT)\public\common\oak\inc;$(_WINCEROOT)\public\common\sdk\inc;
+
+TARGETNAME=DiagOQA
+TARGETTYPE=PROGRAM
+WINCETARGETFILES=$(WINCETARGETFILES) SignTheFile
+
+INCLUDES=$(_ISVINCPATH);$(INCLUDES);..\Diagnostic;
+CDEFINES=$(CDEFINES); -DFOROQA
+
+FILE_VIEW_ROOT_FOLDER= \
+
+FILE_VIEW_RESOURCE_FOLDER= \
+		.\Diagnostic.ico \
+		.\Diagnostic.rc
+
+FILE_VIEW_INCLUDES_FOLDER= \
+
+SOURCELIBS=\
+			..\Diagnostic\obj\$(_CPUINDPATH)\DiagLib.lib
+
+TARGETLIBS= \
+	$(_PROJECTROOT)\cesysgen\sdk\lib\$(_CPUINDPATH)\coredll.lib \
+	$(_PROJECTROOT)\cesysgen\sdk\lib\$(_CPUINDPATH)\Commctrl.lib \
+	$(_PROJECTROOT)\cesysgen\sdk\lib\$(_CPUINDPATH)\ws2.lib \
+	
+
+FILE_VIEW_PARAMETER_FOLDER= \
+
+
+PROGRAMTARGETTYPE=PROGRAM
+
+SOURCES= \
+		..\Diagnostic.cpp \
+		Diagnostic.rc
+		

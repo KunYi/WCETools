@@ -1,0 +1,31 @@
+
+_ISVINCPATH=$(_WINCEROOT)\public\common\sdk\inc;$(_WINCEROOT)\public\common\ddk\inc;
+INCLUDES=$(_ISVINCPATH);..\libhash;$(INCLUDES);
+
+
+TARGETNAME=testhash
+FILE_VIEW_ROOT_FOLDER= \
+  StdAfx.cpp \
+
+FILE_VIEW_RESOURCE_FOLDER= \
+
+FILE_VIEW_INCLUDES_FOLDER= \
+  StdAfx.h \
+
+SOURCES= \
+  testhash.cpp \
+
+RELEASETYPE=PLATFORM
+TARGETTYPE=PROGRAM
+PRECOMPILED_CXX=1
+EXEENTRY=mainWCRTStartup
+PRECOMPILED_PCH=StdAfx.pch
+TARGETLIBS= \
+  $(_PROJECTROOT)\cesysgen\sdk\lib\$(_CPUINDPATH)\coredll.lib \
+ 
+SOURCELIBS= \
+	libhash.lib
+
+
+PRECOMPILED_OBJ=StdAfx.obj
+PRECOMPILED_INCLUDE=StdAfx.h

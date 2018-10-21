@@ -1,0 +1,173 @@
+//Microsoft eMbedded Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+#include "diagnostic.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Chinese (Taiwan) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHT)
+#ifdef _WIN32
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_TRADITIONAL
+#pragma code_page(950)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+ID_ICON                 ICON    DISCARDABLE     "Diagnostic.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+DIAGNOSTIC DIALOG DISCARDABLE  25, 5, 349, 274
+STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "  MMD2 Test Software v1.4"
+FONT 12, "Arial"
+BEGIN
+    CONTROL         "All Test",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,46,27,71,13
+    CONTROL         "Memory Test",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,46,43,71,13
+    CONTROL         "LCD Test",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,46,58,71,13
+    CONTROL         "Touch Panel Test",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,46,73,71,13
+    CONTROL         "Backlight Test",IDC_CHECK5,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,46,88,71,13
+    CONTROL         "LAN Test",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,46,103,71,13
+    CONTROL         "Frame LED Test",IDC_CHECK7,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,46,118,71,13
+    CONTROL         "Text LED Test",IDC_CHECK8,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,46,133,71,13
+    CONTROL         "Buzzer Test",IDC_CHECK9,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,46,148,71,13
+    PUSHBUTTON      "Start",IDC_BUTTON1,222,46,71,40
+    EDITTEXT        IDC_EDIT1,136,43,46,12,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT2,136,58,46,12,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT3,136,73,46,12,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT4,136,88,46,12,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT5,136,103,46,12,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT6,136,118,46,12,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT7,136,133,46,12,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT8,136,148,46,12,ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "Result",IDC_STATIC,136,30,45,11
+    LTEXT           "MMD2 TEST SOFTWARE FOR MANUFACTURING",IDC_STATIC,97,4,
+                    154,8
+    CONTROL         "Suspend Test",IDC_CHECK10,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,46,163,71,13
+    EDITTEXT        IDC_EDIT9,136,163,46,12,ES_AUTOHSCROLL | ES_READONLY
+END
+
+LCDTESTDLG DIALOG DISCARDABLE  25, 5, 349, 274
+STYLE DS_CENTER | WS_VISIBLE
+FONT 8, "System"
+BEGIN
+END
+
+TOUCHTESTDLG DIALOG DISCARDABLE  25, 5, 349, 274
+STYLE DS_CENTER | WS_VISIBLE
+FONT 12, "Arial"
+BEGIN
+    LTEXT           "Carefully press and briefly hold stylus on the center of the target.",
+                    IDC_STATIC,67,33,215,8
+    LTEXT           "Repeat as the target moves around the screen.",
+                    IDC_STATIC,96,48,156,8
+    LTEXT           "Touch Panel Test",IDC_STATIC,145,18,59,8
+END
+
+BACKLIGHTTESTDLG DIALOG DISCARDABLE  25, 5, 349, 274
+STYLE DS_CENTER | WS_VISIBLE
+FONT 12, "Arial"
+BEGIN
+    LTEXT           "Backlight test in progress....",IDC_STATIC,118,100,112,
+                    9
+    LTEXT           "Tap screen to dim the brightness.",IDC_STATIC,109,112,
+                    130,10
+END
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""diagnostic.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    "DIAGNOSTIC", DIALOG
+    BEGIN
+        RIGHTMARGIN, 305
+    END
+
+    "LCDTESTDLG", DIALOG
+    BEGIN
+        BOTTOMMARGIN, 262
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Chinese (Taiwan) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

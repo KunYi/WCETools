@@ -1,0 +1,40 @@
+
+WINCEOEM=1
+
+WINCEREL=1
+RELEASETYPE=LOCAL
+
+_ISVINCPATH=$(_WINCEROOT)\public\common\sdk\inc;$(_WINCEROOT)\public\common\ddk\inc;
+_OEMINCPATH=$(_WINCEROOT)\public\common\oak\inc;$(_WINCEROOT)\public\common\sdk\inc;
+
+TARGETNAME=nandtoc
+TARGETTYPE=LIBRARY
+#WINCETARGETFILES
+SYNCHRONIZE_BLOCK=1
+
+ADEFINES=-pd "_TGTCPU SETS \"$(_TGTCPU)\"" $(ADEFINES)
+LDEFINES=-subsystem:native /DEBUG /DEBUGTYPE:CV /FIXED:NO
+
+INCLUDES=$(_ISVINCPATH);..\inc;$(INCLUDES)
+
+FILE_VIEW_ROOT_FOLDER= \
+
+FILE_VIEW_RESOURCE_FOLDER= \
+
+FILE_VIEW_INCLUDES_FOLDER= \
+  nand.h	\
+  fmd.h	\
+
+TARGETLIBS= \
+	$(_PROJECTROOT)\cesysgen\sdk\lib\$(_CPUINDPATH)\coredll.lib \
+	$(_PROJECTROOT)\cesysgen\sdk\lib\$(_CPUINDPATH)\Commctrl.lib \
+	smflash_lib.lib
+
+FILE_VIEW_PARAMETER_FOLDER= \
+
+
+PROGRAMTARGETTYPE=LIBRARY
+
+SOURCES= \
+		nandtoc.cpp	\
+		

@@ -1,0 +1,54 @@
+
+
+TARGETNAME=BurnIn
+TARGETTYPE=PROGRAM
+RELEASETYPE=LOCAL
+
+WINCEOEM=1
+
+WINCEREL=1
+
+_ISVINCPATH=$(_WINCEROOT)\public\common\sdk\inc;$(_WINCEROOT)\public\common\ddk\inc;
+_OEMINCPATH=$(_WINCEROOT)\public\common\oak\inc;$(_WINCEROOT)\public\common\sdk\inc;
+
+
+#WINCETARGETFILES
+
+INCLUDES=$(_ISVINCPATH);$(INCLUDES)
+
+FILE_VIEW_ROOT_FOLDER= \
+
+FILE_VIEW_RESOURCE_FOLDER= \
+	HelloWorld.rc \
+	HelloWorld.ico
+
+FILE_VIEW_INCLUDES_FOLDER= \
+  api.h \
+  helloworld.h	\
+  newres.h	\
+  resource.h	\
+  stdafx.h
+
+TARGETLIBS= \
+	$(_PROJECTROOT)\cesysgen\sdk\lib\$(_CPUINDPATH)\coredll.lib \
+	$(_PROJECTROOT)\cesysgen\sdk\lib\$(_CPUINDPATH)\Commctrl.lib \
+	
+#	..\lib\smflash_lib.lib
+
+FILE_VIEW_PARAMETER_FOLDER= \
+
+
+PROGRAMTARGETTYPE=PROGRAM
+
+SOURCES= \
+		Backlight.cpp	\
+		Buzzer.cpp	\
+		FrameLED.cpp	\
+		HelloWorld.cpp	\
+		LCD.cpp	\
+		Memory.cpp	\
+		StdAfx.cpp	\
+		TextLED.cpp	\
+		Time.cpp	\
+		HelloWorld.rc
+		

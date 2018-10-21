@@ -1,0 +1,42 @@
+
+WINCEOEM=1
+
+WINCEREL=1
+RELEASETYPE=LOCAL
+
+_ISVINCPATH=$(_WINCEROOT)\public\common\sdk\inc;$(_WINCEROOT)\public\common\ddk\inc;
+_OEMINCPATH=$(_WINCEROOT)\public\common\oak\inc;$(_WINCEROOT)\public\common\sdk\inc;
+
+TARGETNAME=FactoryMode
+TARGETTYPE=PROGRAM
+#WINCETARGETFILES
+
+INCLUDES=$(_ISVINCPATH);..\INC;$(INCLUDES)
+
+FILE_VIEW_ROOT_FOLDER= \
+
+FILE_VIEW_RESOURCE_FOLDER= \
+	FactoryMode.rc \
+	FactoryMode.ico
+
+FILE_VIEW_INCLUDES_FOLDER= \
+  FactoryMode.h \
+  nand.h	\
+  fmd.h	\
+  resource.h	\
+
+TARGETLIBS= \
+	$(_PROJECTROOT)\cesysgen\sdk\lib\$(_CPUINDPATH)\coredll.lib \
+	$(_PROJECTROOT)\cesysgen\sdk\lib\$(_CPUINDPATH)\Commctrl.lib \
+	..\lib\smflash_lib.lib \
+	..\lib\nandtoc.lib
+
+FILE_VIEW_PARAMETER_FOLDER= \
+
+
+PROGRAMTARGETTYPE=PROGRAM
+
+SOURCES= \
+		FactoryMode.cpp	\
+		FactoryMode.rc
+		

@@ -1,0 +1,43 @@
+
+SYNCHRONIZE_BLOCK=1
+
+WINCEOEM=1
+
+WINCEREL=1
+
+RELEASETYPE=LOCAL
+
+_ISVINCPATH=$(_WINCEROOT)\public\common\sdk\inc;$(_WINCEROOT)\public\common\ddk\inc;
+_OEMINCPATH=$(_WINCEROOT)\public\common\oak\inc;$(_WINCEROOT)\public\common\sdk\inc;
+
+TARGETNAME=DiagLib
+TARGETTYPE=LIBRARY
+
+INCLUDES=$(_ISVINCPATH);$(INCLUDES);
+
+FILE_VIEW_ROOT_FOLDER= \
+
+
+FILE_VIEW_RESOURCE_FOLDER= \
+
+
+FILE_VIEW_INCLUDES_FOLDER= \
+  Diagnostic.h	\
+  resource.h	\
+
+FILE_VIEW_PARAMETER_FOLDER=
+
+
+PROGRAMTARGETTYPE=LIBRARY
+
+SOURCES= \
+		BacklightTest.cpp	\
+		BuzzerTest.cpp		\
+		FrameLEDTest.cpp	\
+		LANTest.cpp			\
+		LCDTest.cpp			\
+		MemoryTest.cpp		\
+		SuspendTest.cpp		\
+		TextLEDTest.cpp		\
+		TouchTest.cpp		\
+		

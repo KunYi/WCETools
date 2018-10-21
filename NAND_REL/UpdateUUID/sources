@@ -1,0 +1,43 @@
+
+WINCEOEM=1
+
+WINCEREL=1
+RELEASETYPE=LOCAL
+
+_ISVINCPATH=$(_WINCEROOT)\public\common\sdk\inc;$(_WINCEROOT)\public\common\ddk\inc;
+_OEMINCPATH=$(_WINCEROOT)\public\common\oak\inc;$(_WINCEROOT)\public\common\sdk\inc;
+
+TARGETNAME=UpdateUUID
+TARGETTYPE=PROGRAM
+#WINCETARGETFILES
+
+INCLUDES=$(_ISVINCPATH);..\NAND\INC;$(INCLUDES)
+
+FILE_VIEW_ROOT_FOLDER= \
+
+FILE_VIEW_RESOURCE_FOLDER= \
+	UpdateUUID.rc \
+	UpdateUUID.ico
+
+FILE_VIEW_INCLUDES_FOLDER= \
+  UpdateUUID.h \
+  nand.h	\
+  fmd.h	\
+  resource.h	\
+
+TARGETLIBS= \
+	$(_PROJECTROOT)\cesysgen\sdk\lib\$(_CPUINDPATH)\coredll.lib \
+	$(_PROJECTROOT)\cesysgen\sdk\lib\$(_CPUINDPATH)\Commctrl.lib \
+	..\NAND\lib\smflash_lib.lib	\
+	..\NAND\lib\nandtoc.lib	\
+
+
+FILE_VIEW_PARAMETER_FOLDER= \
+
+
+PROGRAMTARGETTYPE=PROGRAM
+
+SOURCES= \
+		UpdateUUID.cpp	\
+		UpdateUUID.rc
+		

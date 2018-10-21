@@ -1,0 +1,6 @@
+DIRS=\
+			NAND	\
+			UpdateOS	\
+			BurnIn	\
+			Diagnostic	\
+			DelRM

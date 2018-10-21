@@ -1,0 +1,38 @@
+
+
+WINCEREL=1
+RELEASETYPE=LOCAL
+
+_ISVINCPATH=$(_WINCEROOT)\public\common\sdk\inc;$(_WINCEROOT)\public\common\ddk\inc;
+_OEMINCPATH=$(_WINCEROOT)\public\common\oak\inc;$(_WINCEROOT)\public\common\sdk\inc;
+
+TARGETNAME=DumpImage
+TARGETTYPE=PROGRAM
+
+INCLUDES=$(_ISVINCPATH);$(INCLUDES)
+
+FILE_VIEW_ROOT_FOLDER= \
+
+FILE_VIEW_RESOURCE_FOLDER= \
+	DumpImage.rc \
+	DumpImage.ico
+
+FILE_VIEW_INCLUDES_FOLDER= \
+  DumpImage.h \
+  fmd.h	\
+  resource.h	\
+
+
+PROGRAMTARGETTYPE=PROGRAM
+
+TARGETLIBS= \
+	$(_PROJECTROOT)\cesysgen\sdk\lib\$(_CPUINDPATH)\coredll.lib \
+	$(_PROJECTROOT)\cesysgen\sdk\lib\$(_CPUINDPATH)\Commctrl.lib \
+	..\lib\smflash_lib.lib
+
+FILE_VIEW_PARAMETER_FOLDER= \
+
+
+SOURCES= \
+		DumpImage.cpp	\
+		DumpImage.rc

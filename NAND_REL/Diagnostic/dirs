@@ -1,0 +1,4 @@
+DIRS=\
+		Diagnostic	\
+		Factory		\
+		OQA			\

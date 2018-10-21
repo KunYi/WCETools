@@ -1,0 +1,4 @@
+DIRS=\
+		Lib	\
+		FactoryMode	\
+		DumpImage

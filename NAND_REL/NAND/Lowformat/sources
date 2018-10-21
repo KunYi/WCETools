@@ -1,0 +1,37 @@
+
+WINCEOEM=1
+
+WINCEREL=1
+RELEASETYPE=LOCAL
+
+_ISVINCPATH=$(_WINCEROOT)\public\common\sdk\inc;$(_WINCEROOT)\public\common\ddk\inc;
+_OEMINCPATH=$(_WINCEROOT)\public\common\oak\inc;$(_WINCEROOT)\public\common\sdk\inc;
+
+TARGETNAME=LowFormat
+TARGETTYPE=PROGRAM
+#WINCETARGETFILES
+
+INCLUDES=$(_ISVINCPATH);..\INC;$(INCLUDES)
+
+FILE_VIEW_ROOT_FOLDER= \
+
+FILE_VIEW_RESOURCE_FOLDER= \
+
+
+FILE_VIEW_INCLUDES_FOLDER= \
+  bppriv.h \
+  
+TARGETLIBS= \
+	$(_PROJECTROOT)\cesysgen\sdk\lib\$(_CPUINDPATH)\coredll.lib \
+	$(_PROJECTROOT)\cesysgen\sdk\lib\$(_CPUINDPATH)\Commctrl.lib \
+	$(_PROJECTROOT)\cesysgen\oak\lib\$(_CPUINDPATH)\Storeapi.lib \
+	..\lib\smflash_lib.lib \
+
+
+FILE_VIEW_PARAMETER_FOLDER= \
+
+
+PROGRAMTARGETTYPE=PROGRAM
+
+SOURCES= \
+		main.cpp		

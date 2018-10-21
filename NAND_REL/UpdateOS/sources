@@ -1,0 +1,38 @@
+
+WINCEOEM=1
+
+WINCEREL=1
+RELEASETYPE=LOCAL
+
+_ISVINCPATH=$(_WINCEROOT)\public\common\sdk\inc;$(_WINCEROOT)\public\common\ddk\inc;
+_OEMINCPATH=$(_WINCEROOT)\public\common\oak\inc;$(_WINCEROOT)\public\common\sdk\inc;
+
+TARGETNAME=UpdateERM
+TARGETTYPE=PROGRAM
+#WINCETARGETFILES
+
+INCLUDES=$(_ISVINCPATH);$(INCLUDES);
+
+FILE_VIEW_ROOT_FOLDER= \
+
+FILE_VIEW_RESOURCE_FOLDER= \
+	UpdateOS.rc \
+	UpdateOS.ico
+
+FILE_VIEW_INCLUDES_FOLDER= \
+  updateOS.h	\
+  resource.h	\
+
+TARGETLIBS= \
+	$(_PROJECTROOT)\cesysgen\sdk\lib\$(_CPUINDPATH)\coredll.lib \
+	$(_PROJECTROOT)\cesysgen\sdk\lib\$(_CPUINDPATH)\Commctrl.lib \
+
+FILE_VIEW_PARAMETER_FOLDER= \
+
+
+PROGRAMTARGETTYPE=PROGRAM
+
+SOURCES= \
+		UpdateOS.cpp	\
+		UpdateOS.rc
+		
