@@ -92,30 +92,66 @@ typedef struct
 //
 #pragma pack(1)
 typedef struct BIOSPB_TAG
-{
-    unsigned char  VersionId[8];
-    unsigned short BytesPerSect;
-    unsigned char  SectsPerClust;
-    unsigned short RsvdSects;
-    unsigned char  NumFATs;
-    unsigned short NumRootEntries;
-    unsigned short SectsPerPart;
-    unsigned char  MediaDesc;
-    unsigned short SectsPerFAT;
-    unsigned short SectsPerTrack;
-    unsigned short NumHeads;
-    unsigned short NumHiddenSectL;
-    unsigned short NumHiddenSectH;
-    unsigned short TotalSectorsL;
-    unsigned short TotalSectorsH;
-    unsigned char  DriveId;
-    unsigned char  TempVal;
-    unsigned char  ExtRecordSig;
-    unsigned short VolSerNumL;
-    unsigned short VolSerNumH;
-    unsigned char  VolLabel[11];
-    unsigned char  TypeFAT[8];
+{                                   //  Offset   Size
+    unsigned char  VersionId[8];    //  3        8
+    unsigned short BytesPerSect;    //  11       2
+    unsigned char  SectsPerClust;   //  13       1
+    unsigned short RsvdSects;       //  14       2
+    unsigned char  NumFATs;         //  16       1 
+    unsigned short NumRootEntries;  //  17       2
+    unsigned short SectsPerPart;    //  19       2
+    unsigned char  MediaDesc;       //  21       1
+    unsigned short SectsPerFAT;     //  22       2
+    unsigned short SectsPerTrack;   //  24       2
+    unsigned short NumHeads;        //  26       2
+    unsigned short NumHiddenSectL;  //  28       2
+    unsigned short NumHiddenSectH;  //  30       2
+    unsigned short TotalSectorsL;   //  32       2
+    unsigned short TotalSectorsH;   //  34       2
+    unsigned char  DriveId;         //  36       1
+    unsigned char  TempVal;         //  37       1
+    unsigned char  ExtRecordSig;    //  38       1
+    unsigned short VolSerNumL;      //  39       2
+    unsigned short VolSerNumH;      //  41       2
+    unsigned char  VolLabel[11];    //  43       11
+    unsigned char  TypeFAT[8];      //  54       8
 } BIOSPB, *PBIOSPB;
+
+#pragma pack(1)
+typedef struct BIOSPB_TAG32
+{                            //  Offset    Size
+    unsigned char   VersionId[8];     //  3         8
+    unsigned short  BytesPerSect;     //  11        2
+    unsigned char   SectsPerClust;    //  13        1
+    unsigned short  RsvdSects;        //  14        2
+    unsigned char   NumFATs;          //  16        1
+    unsigned short  NumRootEntries;   //  17        2
+    unsigned short  SectsPerPart;     //  19        2
+    unsigned char   MediaDesc;        //  21        1
+    unsigned short  SectsPerFAT;      //  22        2
+    unsigned short  SectsPerTrack;    //  24        2
+    unsigned short  NumHeads;         //  26        2
+    unsigned short  NumHiddenSectL;   //  28        4
+    unsigned short  NumHiddenSectH;
+    unsigned short  TotalSectorsL;    //  32        4
+    unsigned short  TotalSectorsH;
+    unsigned short  SectsPerFATL;     //  36        4
+    unsigned short  SectsPerFATH;
+    unsigned short  Flags;            //  40        2
+    unsigned short  FSVersion;        //  42        2
+    unsigned short  RootClusterL;     //  44        4
+    unsigned short  RootClusterH;
+    unsigned short  FSInfo;           //  48        2
+    unsigned short  BackupBootSector; //  50        2
+    unsigned char   Reserved[12];     //  52        12
+    unsigned char   DriveId;          //  64        1
+    unsigned char   Reserved1;        //  65        1
+    unsigned char   BootSig;          //  66        1
+    unsigned short  VolumeIdL;        //  67        4
+    unsigned short  VolumeIdH;
+    unsigned char   Label[11];        //  71        11
+    unsigned char   TypeFAT[8];       //  82        8
+} BIOSPB32, *PBIOSPB32;
 
 //
 // MBR partition table entry structure.
@@ -124,12 +160,12 @@ typedef struct BIOSPB_TAG
 typedef struct
 {
     unsigned char ActiveFlag;
-    unsigned char SSector;
     unsigned char SHead;
+    unsigned char SSector;
     unsigned char SCylinder;
     unsigned char Type;
-    unsigned char ESector;
     unsigned char EHead;
+    unsigned char ESector;
     unsigned char ECylinder;
     unsigned long SLBA;
     unsigned long Size;
@@ -152,16 +188,17 @@ typedef struct
 //
 unsigned long gActivePartLBA;           // LBA address of active partition.
 unsigned char gTempSector[SECTOR_SIZE]; // Buffer for sector reads.
+unsigned int  gIsFAT32 = 0;
 
 //
 // Function prototypes.
 //
 static int ReadSector(unsigned char Drive, unsigned short Cylinder, unsigned char Head, unsigned char Sector, unsigned char *pBuffer);
 static int WriteSector(unsigned char Drive, unsigned short Cylinder, unsigned char Head, unsigned char Sector, unsigned char *pBuffer);
-static int WriteBootSector(unsigned char *pSector, unsigned char DriveNum, unsigned short Offset, PBIOSPB pBPB);
+static int WriteBootSector(unsigned char *pSector, unsigned char DriveNum, unsigned short Offset, PBIOSPB32 pBPB);
 static int ParseArguments(int ArgC, char **ArgV, PPARAMS pUserParams);
-static int TransferLoader(PPARAMS pParams, PBIOSPB pBPB);
-static void LBA2PCHS(unsigned long LBA, unsigned short *pCylinder, unsigned char  *pHead, unsigned char  *pSector, PBIOSPB pBPB);
+static int TransferLoader(PPARAMS pParams, PBIOSPB32 pBPB);
+static void LBA2PCHS(unsigned long LBA, unsigned short *pCylinder, unsigned char  *pHead, unsigned char  *pSector, PBIOSPB32 pBPB);
 
 
 //
@@ -171,7 +208,7 @@ int main(int ArgC, char **ArgV)
 {
     PARAMS UserParams;
     FILE *FP = NULL;
-    BIOSPB BPB;
+    BIOSPB32 BPB;
     unsigned short DataSize = 0;
     unsigned char Sector[SECTOR_SIZE];
 
@@ -244,7 +281,7 @@ UsageMessage:
 // Write the specified sector buffer, with offset applied, to the boot sector and return the BIOS parameter
 // block (BPB) contents to the caller.
 //
-static int WriteBootSector(unsigned char *pSector, unsigned char DriveNum, unsigned short Offset, PBIOSPB pBPB)
+static int WriteBootSector(unsigned char *pSector, unsigned char DriveNum, unsigned short Offset, PBIOSPB32 pBPB)
 {
     int Status = 0;
     unsigned short Cylinder;
@@ -294,9 +331,10 @@ static int WriteBootSector(unsigned char *pSector, unsigned char DriveNum, unsig
         // Record starting cylinder, header, and sector values of active partition - this is the 
         // location of the partition's boot sector.
         //
-        Cylinder = pPartTable->SCylinder;
-        Head     = pPartTable->SHead;
-        Sector   = pPartTable->SSector;
+		Head     = pPartTable->SHead;
+		Sector   = pPartTable->SSector & 0x3F;  // 6bits
+		Cylinder = pPartTable->SCylinder + ((pPartTable->SSector & 0xC0) << 2); // 10bits
+
 
         gActivePartLBA = pPartTable->SLBA;
 
@@ -351,7 +389,7 @@ static int WriteBootSector(unsigned char *pSector, unsigned char DriveNum, unsig
 
     // Copy the BIOS parameter block for the caller.
     //
-    memcpy(pBPB, (gTempSector + 3), sizeof(BIOSPB));
+    memcpy(pBPB, (gTempSector + 3), sizeof(BIOSPB32));
 
     // Write the boot sector data back to disk.
     //
@@ -539,13 +577,14 @@ WS_Done:
 //
 // Transfer the bootloader to the storage device and update the root directory.
 //
-static int TransferLoader(PPARAMS pParams, PBIOSPB pBPB)
+static int TransferLoader(PPARAMS pParams, PBIOSPB32 pBPB32)
 {
     unsigned long RootDirLBA = 0;
     int Status = 0;
     unsigned short Cylinder;
     unsigned char Head, Sector;
     PDIRENTRY pDirEntry = NULL;
+    unsigned char FATTYPE[8];
 #define MAX_COMMAND_STRING  50
     unsigned char SystemCommand[MAX_COMMAND_STRING];
 
@@ -559,8 +598,30 @@ static int TransferLoader(PPARAMS pParams, PBIOSPB pBPB)
     // Determine the active partitions root directory LBA and convert it to a physical CHS value
     // which is needed by the BIOS.
     //
-    RootDirLBA = gActivePartLBA + (pBPB->NumFATs * pBPB->SectsPerFAT) + pBPB->RsvdSects;
-    LBA2PCHS(RootDirLBA, &Cylinder, &Head, &Sector, pBPB);    
+    memcpy(FATTYPE, pBPB32->TypeFAT, 8);
+    if (memcmp(FATTYPE, "FAT32   ", 8) == 0)
+    {
+        gIsFAT32 = 1;
+        RootDirLBA = pBPB32->SectsPerFATL + (pBPB32->SectsPerFATH << 16);
+        RootDirLBA = RootDirLBA * pBPB32->NumFATs;
+        RootDirLBA += pBPB32->RsvdSects + gActivePartLBA;
+    }
+    else
+    {
+        PBIOSPB pBPB = (PBIOSPB)(pBPB32);
+        memcpy(FATTYPE, pBPB->TypeFAT, 8);
+        if ((memcmp(FATTYPE, "FAT12   ", 8) == 0) ||
+            (memcmp(FATTYPE, "FAT16   ", 8) == 0))
+        {
+            RootDirLBA = gActivePartLBA + (pBPB->NumFATs * pBPB->SectsPerFAT) + pBPB->RsvdSects;
+        }
+        else
+		{
+            printf("Unkwon filesystem, only support FAT12/FAT16/FAT32\r\n");
+            return (-1);
+        }
+    }
+    LBA2PCHS(RootDirLBA, &Cylinder, &Head, &Sector, pBPB32);
 
     // Read the first sector of the root directory.
     //
@@ -574,6 +635,8 @@ static int TransferLoader(PPARAMS pParams, PBIOSPB pBPB)
     // MS-DOS's IO.SYS might be here if this is a formatted system disk.
     //
     pDirEntry = (PDIRENTRY)gTempSector;
+	if (gIsFAT32)
+		pDirEntry++;
 
 #if 0
     printf("FileName: 0x%x %c%c%c%c%c%c%c.%c%c%c.\r\n", pDirEntry->FileName[0], pDirEntry->FileName[1], pDirEntry->FileName[2], pDirEntry->FileName[3], pDirEntry->FileName[4], pDirEntry->FileName[5], pDirEntry->FileName[6], pDirEntry->FileName[7], pDirEntry->FileExt[0], pDirEntry->FileExt[1], pDirEntry->FileExt[2]);
@@ -587,7 +650,7 @@ static int TransferLoader(PPARAMS pParams, PBIOSPB pBPB)
     // Initialize first directory entry in order for copy to make use of it (it's typically updated by the DOS sys tool).
     //
     memset(pDirEntry->FileName, ' ', 8);
-    memset(pDirEntry->FileName, ' ', 3);
+    memset(pDirEntry->FileExt, ' ', 3);
     pDirEntry->FileName[0] = 0xe5;          // Deleted file tag.
     pDirEntry->FATTr       = 0;
     memset(pDirEntry->FOO, ' ', 10);
@@ -627,14 +690,14 @@ static int TransferLoader(PPARAMS pParams, PBIOSPB pBPB)
 //
 // Convert a LBA address to a physical CHS address that's used by the BIOS.
 //
-static void LBA2PCHS(unsigned long LBA, unsigned short *pCylinder, unsigned char  *pHead, unsigned char  *pSector, PBIOSPB pBPB)
+static void LBA2PCHS(unsigned long LBA, unsigned short *pCylinder, unsigned char  *pHead, unsigned char  *pSector, PBIOSPB32 pBPB)
 {
     unsigned short Temp = 0;
+    T = (unsigned short)(LBA / (unsigned long)pBPB->SectsPerTrack);
 
     // Do the math...
-    *pCylinder = (unsigned short)(LBA / (pBPB->NumHeads * pBPB->SectsPerTrack));
-    Temp       = (unsigned short)(LBA % (pBPB->NumHeads * pBPB->SectsPerTrack));
-    *pHead     = (unsigned char)(Temp / pBPB->SectsPerTrack);
-    *pSector   = (unsigned char)(Temp % pBPB->SectsPerTrack) + 1;
+    *pCylinder = (unsigned short)(Temp / pBPB->NumHeads);
+    *pHead     = (unsigned char)(Temp % pBPB->NumHeads);
+    *pSector   = (unsigned char)(LBA % pBPB->SectsPerTrack) + 1;
 }
 
