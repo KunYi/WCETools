@@ -272,6 +272,8 @@ UsageMessage:
     printf("bsectfile        - name of file that contains sector data\r\n");
     printf("bldrfile         - name of bootloader executable file\r\n");
     printf("drive            - driver letter (a:, c:, etc.)\r\n");
+    printf("\r\n\r\n Tips: should be with offset, need skip FAT BPB info\r\n");
+    printf("    example -b:90 for FAT32 bootsector (512-422), due to bootsector size is 422\r\n");
 
     return(0);
 }
@@ -693,7 +695,7 @@ static int TransferLoader(PPARAMS pParams, PBIOSPB32 pBPB32)
 static void LBA2PCHS(unsigned long LBA, unsigned short *pCylinder, unsigned char  *pHead, unsigned char  *pSector, PBIOSPB32 pBPB)
 {
     unsigned short Temp = 0;
-    T = (unsigned short)(LBA / (unsigned long)pBPB->SectsPerTrack);
+    Temp = (unsigned short)(LBA / (unsigned long)pBPB->SectsPerTrack);
 
     // Do the math...
     *pCylinder = (unsigned short)(Temp / pBPB->NumHeads);
