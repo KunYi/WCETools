@@ -12,16 +12,16 @@ THE SAMPLE SOURCE CODE IS PROVIDED "AS IS", WITH NO WARRANTIES OR INDEMNITIES.
 !endif
 
 !if 0
-To build this utility, type "nmake".
+To build this utility, type "nmake". toolchain: MSVC V1.52
 !endif
 
-all: cesys.exe
+all: sysce.exe
 
 clean:
         del *.obj *.map *.exe *.com *.sbr
 
-cesys.exe: main.obj
-        c:\msvc\bin\link main.obj ,cesys.exe,,c:\msvc\lib\oldnames.lib c:\msvc\lib\slibce.lib,,
+sysce.exe: main.obj
+        $(MSVC_DIRS)\bin\link main.obj ,sysce.exe,,$(MSVC_DIRS)\lib\oldnames.lib $(MSVC_DIRS)\lib\slibce.lib,,
 
 main.obj: main.c
-        c:\msvc\bin\cl /c /Ic:\msvc\include main.c
+        $(MSVC_DIRS)\bin\cl /c /I$(MSVC_DIRS)\include main.c

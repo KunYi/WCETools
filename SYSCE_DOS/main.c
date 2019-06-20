@@ -52,10 +52,11 @@ Notes:
 //
 #define TOLOWER(a) ((a >= 0x41 && a <= 0x5a) ? (a + 0x20) : a)
 
+#pragma pack(push)
+#pragma pack(1)
 //
 // FAT directory entry structure.
 //
-#pragma pack(1)
 typedef struct
 {
     unsigned char  FileName[8];
@@ -69,9 +70,19 @@ typedef struct
 } DIRENTRY, *PDIRENTRY;
 
 //
+// File Attributes
+//
+#define FA_READONLY    (1<<0)
+#define FA_HIDDEN      (1<<1)
+#define FA_SYSTEM      (1<<2)
+#define FA_VOLUME      (1<<3)
+#define FA_SUBDIR      (1<<4)
+#define FA_ARCHIVE     (1<<5)
+#define FA_DEVICE      (1<<6)
+
+//
 // BIOS parameter block structure.
 //
-#pragma pack(1)
 typedef struct BIOSPB_TAG
 {                                   //  Offset   Size
     unsigned char  VersionId[8];    //  3        8
@@ -98,7 +109,6 @@ typedef struct BIOSPB_TAG
     unsigned char  TypeFAT[8];      //  54       8
 } BIOSPB, *PBIOSPB;
 
-#pragma pack(1)
 typedef struct BIOSPB_TAG32
 {                            //  Offset    Size
     unsigned char   VersionId[8];     //  3         8
@@ -137,7 +147,6 @@ typedef struct BIOSPB_TAG32
 //
 // MBR partition table entry structure.
 //
-#pragma pack(1)
 typedef struct
 {
     unsigned char ActiveFlag;
@@ -164,6 +173,7 @@ typedef struct
     unsigned char  DriveLetter;
 } PARAMS, *PPARAMS;
 
+#pragma pack(pop)
 //
 // Globals.
 //
@@ -224,9 +234,9 @@ int main(int ArgC, char **ArgV)
         *(unsigned char *)(Sector + DataSize) = fgetc(FP);
     }
 
-	if (DataSize != (SECTOR_SIZE - 1))
+	if (SECTOR_SIZE != DataSize)
 	{
-		printf("ERROR: size of boot sector need match 512Bytes\r\n");
+		printf("ERROR: size of boot sector need match 512Bytes, size:%d\r\n", DataSize);
 		goto Done;
 	}
     // Update the boot sector.
@@ -277,7 +287,7 @@ static int isExFAT(unsigned char *pSector)
 
 static int isFAT32(unsigned char *pSector)
 {
-	PBIOSPB32 pBPB32 = (pSector+3);
+	PBIOSPB32 pBPB32 = (PBIOSPB32)(pSector+3);
 
 	if (!memcmp(pBPB32->TypeFAT, "FAT32   ", 8))
 		return 1;
@@ -293,7 +303,7 @@ static int isFAT32(unsigned char *pSector)
 
 static int isFAT(unsigned char *pSector)
 {
-	PBIOSPB pBPB = (pSector+3);
+	PBIOSPB pBPB = (PBIOSPB)(pSector+3);
 
 	if ((memcmp(pBPB->TypeFAT, "FAT16   ", 8) == 0) ||
         (memcmp(pBPB->TypeFAT, "FAT12   ", 8) == 0) ||
@@ -405,7 +415,7 @@ static int WriteBootSector(unsigned char *pSector, unsigned char DriveNum, unsig
 	   return (-1);
 	}
     // Overlay data.
-    memcpy((gTempSector + Offset), pSector, (SECTOR_SIZE - Offset));
+    memcpy((gTempSector + Offset), (pSector + Offset), (SECTOR_SIZE - Offset));
 
     // Copy the BIOS parameter block for the caller.
     //
@@ -655,7 +665,8 @@ static int TransferLoader(PPARAMS pParams, PBIOSPB32 pBPB32)
     // MS-DOS's IO.SYS might be here if this is a formatted system disk.
     //
     pDirEntry = (PDIRENTRY)gTempSector;
-	if (gIsFAT32)
+	
+	if (pDirEntry->FATTr & FA_VOLUME) // check volume label to skip
 		pDirEntry++;
 
     // Initialize first directory entry in order for copy to make use of it (it's typically updated by the DOS sys tool).
